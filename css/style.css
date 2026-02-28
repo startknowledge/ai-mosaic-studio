@@ -24,13 +24,12 @@ body {
   padding: 15px 25px;
   background: white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+   
 }
-
 .main-header h1 {
   font-size: 22px;
   font-weight: 600;
 }
-
 .main-header img {
   margin-right: 10px;
 }
