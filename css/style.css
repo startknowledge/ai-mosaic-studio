@@ -1,0 +1,249 @@
+/* ===============================
+   AI Mosaic Studio - Main Styles
+================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #f4f6f9;
+  color: #222;
+  min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.main-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.main-header img {
+  margin-right: 10px;
+}
+
+#themeToggle {
+  background: #eee;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#themeToggle:hover {
+  background: #ddd;
+}
+
+/* ================= UPLOAD SECTION ================= */
+
+.upload-area {
+  background: white;
+  margin: 30px auto;
+  padding: 25px;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.upload-area h2 {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.upload-area input[type="file"] {
+  margin-bottom: 15px;
+}
+
+#dropZone {
+  border: 2px dashed #ccc;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #fafafa;
+}
+
+#dropZone:hover {
+  background: #f0f0f0;
+  border-color: #888;
+}
+
+.options {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.options label {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#dynamicInputs {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+#generateBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #4a90e2;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#generateBtn:hover {
+  background: #357bd8;
+}
+
+/* ================= PROGRESS BAR ================= */
+
+#progressBar {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+#progress {
+  width: 0%;
+  height: 100%;
+  background: #4a90e2;
+  transition: width 0.3s ease;
+}
+
+/* ================= RESULT SECTION ================= */
+
+.result {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+#resultCanvas {
+  width: 100%;
+  max-height: 500px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* ================= CONTROLS ================= */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sliders label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.sliders input[type="range"] {
+  margin-top: 5px;
+}
+
+.export-options {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.export-options select,
+.export-options button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#downloadBtn {
+  background: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#downloadBtn:hover {
+  background: #1f8c38;
+}
+
+/* ================= ADS ================= */
+
+.ads-section {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.direct-ad {
+  margin: 30px auto;
+  text-align: center;
+}
+
+/* ================= LOADER ================= */
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  .upload-area,
+  .result {
+    padding: 15px;
+  }
+
+  .main-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .export-options {
+    flex-direction: column;
+  }
+
+}

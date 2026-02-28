@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>AI Mosaic Studio</title>
+
+        <!-- ================= CSS ================= -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/dark.css">
+
+        <!-- ================= Favicon / Logo ================= -->
+        <link rel="icon" type="image/svg+xml" href="assets/logo-3d.svg">
+
+        <!-- ======= MediaPipe (Local Version Recommended) ======= -->
+        <script src="libs/mediapipe/face_mesh.js"></script>
+        <script src="libs/mediapipe/pose.js"></script>
+
+        <!--Loader Use Karne Ka Code-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    </head>
+    <body>
+        <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-XXXX"
+        data-ad-slot="XXXX"
+        data-ad-format="auto"
+        data-full-width-responsive="true">
+        </ins>
+
+        <!-- ================= HEADER ================= -->
+        <header class="main-header">
+            <img src="assets/logo.svg" alt="AI Mosaic Logo" width="40">
+            <h1>AI Mosaic Studio</h1>
+            <button id="themeToggle">🌙</button>
+        </header>
+
+        <!-- ================= UPLOAD SECTION ================= -->
+        <section class="upload-area">
+            <h2>Base Image</h2>
+            <input type="file" id="baseImage" accept="image/*">
+
+            <h2>Tile Images (Drag & Drop)</h2>
+            <div id="dropZone">Drop Images Here</div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="autoSet">
+                    Auto Set Images
+                </label>
+
+                <label>
+                    <input type="checkbox" id="manualMapping">
+                    Manual Body Part Mapping
+                </label>
+            </div>
+
+            <!-- Dynamic AI Upload Fields -->
+            <div id="dynamicInputs"></div>
+
+            <button id="generateBtn">Generate Mosaic</button>
+
+            <div id="progressBar">
+                <div id="progress"></div>
+            </div>
+
+        </section>
+
+        <!-- ================= RESULT SECTION ================= -->
+        <section class="result">
+            <canvas id="resultCanvas"></canvas>
+
+            <div class="controls">
+                <div class="sliders">
+                    <label>
+                        Base Opacity
+                        <input type="range" id="baseOpacity" min="0" max="1" step="0.1" value="1">
+                    </label>
+
+                    <label>
+                        Tile Opacity
+                        <input type="range" id="tileOpacity" min="0" max="1" step="0.1" value="1">
+                    </label>
+                </div>
+
+                <div class="export-options">
+                    <select id="formatSelect">
+                        <option value="png">PNG</option>
+                        <option value="jpeg">JPG</option>
+                        <option value="webp">WEBP</option>
+                    </select>
+
+                    <select id="qualitySelect">
+                        <option value="hd">HD</option>
+                        <option value="4k">4K</option>
+                    </select>
+
+                    <button id="downloadBtn">Download</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LOADER (Optional Lottie) ================= -->
+        <div id="loader" style="display:none;"></div>
+
+        <!-- ================= GOOGLE ADSENSE ================= -->
+        <section class="ads-section">
+            <script src="ads/adsense.js"></script>
+        </section>
+
+        <!-- ================= DIRECT CLIENT AD ================= -->
+        <div class="direct-ad">
+            <a href="https://exampleclient.com" target="_blank">
+                <img src="ads/client-banner.jpg" width="300" alt="Client Ad">
+            </a>
+        </div>
+
+        <!-- ================= LIBRARIES ================= -->
+        <script src="libs/browser-image-compression.js"></script>
+
+        <!-- ================= CORE JS FILES ================= -->
+        <script src="theme.js"></script>
+        <script src="compression.js"></script>
+        <script src="mosaic-engine.js"></script>
+        <script src="face-detect.js"></script>
+        <script src="worker.js"></script>
+        <script src="download.js"></script>
+        <script src="app.js"></script>
+        <script src="ads/adsense.js"></script>
+    </body>
+</html>
