@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{SITE_LANG}}">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{title}}</title>
+
+<meta name="description" content="{{description}}">
+<meta name="keywords" content="{{keywords}}">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="{{SITE_URL}}/{{path}}">
+<link rel="icon" href="/assets/images/favicon.svg">
+
+<!-- CSS -->
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container">
+
+    <h1 class="logo">
+      <a href="/">{{SITE_NAME}}</a>
+    </h1>
+
+    <nav class="nav">
+      {{NAVBAR}}
+    </nav>
+
+  </div>
+</header>
+
+<main class="container">
+  {{content}}
+</main>
+
+<footer class="footer">
+  <div class="container">
+
+    <p>© {{year}} {{SITE_NAME}}</p>
+
+    <div class="links">
+      <a href="/pages/privacy-policy.html">Privacy</a>
+      <a href="/pages/terms-and-conditions.html">Terms</a>
+      <a href="/pages/disclaimer.html">Disclaimer</a>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
