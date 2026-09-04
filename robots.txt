@@ -1,0 +1,17 @@
+# robots.txt for AI Mosaic Studio
+# Website: https://aimosaicstudio.startknowledge.in/
+
+# Allow all search engine bots to crawl the entire site
+User-agent: *
+Allow: /
+
+# Disallow access to common admin or system directories (if they exist)
+# These are blocked as a standard precaution, even if they don't exist on this static site.
+Disallow: /cgi-bin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /assets/private/
+Disallow: /tmp/
+
+# Specify the location of the XML sitemap
+Sitemap: https://aimosaicstudio.startknowledge.in/sitemap.xml
