@@ -1,14 +1,28 @@
-/* ===================================
-   AI Mosaic Studio — Main App (sharp)
-=================================== */
+/* ==================================================
+   AI Mosaic Studio — Main App v3
+   Features:
+   - Base image upload + preview
+   - Tile drag & drop with thumbnails + count
+   - Radio: Auto / Manual mapping
+   - Tile size slider (15 to 80)
+   - Live opacity sliders
+   - HD / 4K export (PNG/JPG/WEBP)
+   - Clear tiles button
+   - Sharp rendering (no stretching)
+   - Cache-busted worker
+================================================== */
+
 (function () {
+  /* ==================================================
+     ELEMENT REFERENCES
+  ================================================== */
   const baseInput   = document.getElementById("baseImage");
   const dropZone    = document.getElementById("dropZone");
   const generateBtn = document.getElementById("generateBtn");
   const progressBar = document.getElementById("progressBar");
   const progress    = document.getElementById("progress");
   const canvas      = document.getElementById("resultCanvas");
-  const ctx         = canvas.getContext("2d");
+  const ctx         = canvas ? canvas.getContext("2d") : null;
 
   const baseOpacityEl = document.getElementById("baseOpacity");
   const tileOpacityEl = document.getElementById("tileOpacity");
@@ -19,34 +33,58 @@
   const tileSizeSlider = document.getElementById("tileSizeSlider");
   const tileSizeLabel  = document.getElementById("tileSizeLabel");
 
-  /* ---------- CONFIG ---------- */
-  const CANVAS_SIZE = 2000;      // high-res canvas
-  const TILE_SRC    = 160;       // source tile resolution (sharp)
-  const BASE_SRC    = 2000;      // base image working resolution
+  const clearBtn = document.getElementById("clearBtn");
 
-  let baseImage  = null;
-  let tileImages = [];
-  let tilePixels = [];
-  let basePixels = null;
-  let lastGrid   = null;
-  let currentGridSize = 40;
-  let rendering = false;
-
-  /* ---------- Tile size label ---------- */
-  function updateTileSizeLabel() {
-    currentGridSize = parseInt(tileSizeSlider.value, 10);
-    tileSizeLabel.textContent = currentGridSize + " × " + currentGridSize;
+  /* Guard: agar page ke andar zaroori elements nahi hain to chup-chaap exit */
+  if (!baseInput || !generateBtn || !canvas || !ctx) {
+    console.warn("AI Mosaic Studio: required DOM elements missing.");
+    return;
   }
-  updateTileSizeLabel();
-  tileSizeSlider.addEventListener("input", function () {
-    updateTileSizeLabel();
-    if (baseImage && tileImages.length && basePixels) {
-      clearTimeout(window.__regenT);
-      window.__regenT = setTimeout(generateMosaic, 350);
-    }
-  });
 
-  /* ---------- Load image helper ---------- */
+  /* ==================================================
+     CONFIG
+  ================================================== */
+  const CANVAS_SIZE = 2000;   // High-res output
+  const BASE_SRC    = 2000;   // Base image working size
+  const TILE_SRC    = 160;    // Tile sample size
+  const WORKER_URL  = "worker.js?v=3";
+
+  /* ==================================================
+     STATE
+  ================================================== */
+  let baseImage       = null;      // HTMLImageElement
+  let tileImages      = [];        // [{img, url, name}]
+  let tilePixels      = [];        // [{data, width, height}]
+  let basePixels      = null;      // ImageData
+  let lastGrid        = null;      // Worker result
+  let currentGridSize = 40;
+  let rendering       = false;
+
+  /* ==================================================
+     TILE SIZE SLIDER
+  ================================================== */
+  function updateTileSizeLabel() {
+    currentGridSize = parseInt(tileSizeSlider.value, 10) || 40;
+    if (tileSizeLabel) {
+      tileSizeLabel.textContent = currentGridSize + " × " + currentGridSize;
+    }
+  }
+
+  if (tileSizeSlider) {
+    updateTileSizeLabel();
+    tileSizeSlider.addEventListener("input", function () {
+      updateTileSizeLabel();
+      // Auto-regenerate if we already have a base + tiles
+      if (baseImage && tileImages.length && basePixels) {
+        clearTimeout(window.__regenT);
+        window.__regenT = setTimeout(generateMosaic, 350);
+      }
+    });
+  }
+
+  /* ==================================================
+     HELPERS
+  ================================================== */
   function loadImage(file) {
     return new Promise(function (resolve, reject) {
       const url = URL.createObjectURL(file);
@@ -57,19 +95,52 @@
     });
   }
 
-  /* ---------- Base image ---------- */
+  function setProgress(pct) {
+    if (progress) progress.style.width = pct + "%";
+  }
+
+  function showProgress() {
+    if (progressBar) progressBar.style.display = "block";
+  }
+
+  function hideProgress() {
+    if (progressBar) progressBar.style.display = "none";
+    setProgress(0);
+  }
+
+  /* ==================================================
+     BASE IMAGE
+  ================================================== */
   baseInput.addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (!file) return;
+
     loadImage(file).then(function (obj) {
-      if (baseImage && baseImage.__url) URL.revokeObjectURL(baseImage.__url);
+      // Free previous URL
+      if (baseImage && baseImage.__url) {
+        try { URL.revokeObjectURL(baseImage.__url); } catch (err) {}
+      }
       baseImage = obj.img;
       baseImage.__url = obj.url;
       drawBasePreview();
+    }).catch(function () {
+      alert("Could not load base image.");
     });
   });
 
-  /* ---------- Tiles ---------- */
+  function drawBasePreview() {
+    if (!baseImage || !ctx) return;
+    canvas.width  = CANVAS_SIZE;
+    canvas.height = CANVAS_SIZE;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(baseImage, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  }
+
+  /* ==================================================
+     TILES — add / preview / remove
+  ================================================== */
   function addTileFiles(files) {
     const arr = Array.from(files).filter(function (f) {
       return f.type && f.type.startsWith("image/");
@@ -79,10 +150,14 @@
     Promise.all(arr.map(loadImage)).then(function (objs) {
       objs.forEach(function (o) { tileImages.push(o); });
       renderTilePreview();
+    }).catch(function () {
+      alert("Some tile images could not be loaded.");
     });
   }
 
   function renderTilePreview() {
+    if (!tilePreview || !tileCountNum) return;
+
     tilePreview.innerHTML = "";
     tileCountNum.textContent = tileImages.length;
 
@@ -104,9 +179,9 @@
       rm.type = "button";
       rm.textContent = "×";
       rm.title = "Remove tile";
-      rm.addEventListener("click", function (e) {
-        e.stopPropagation();
-        URL.revokeObjectURL(obj.url);
+      rm.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        try { URL.revokeObjectURL(obj.url); } catch (err) {}
         tileImages.splice(idx, 1);
         renderTilePreview();
       });
@@ -116,6 +191,7 @@
     });
   }
 
+  /* ---- DropZone: click to browse ---- */
   dropZone.addEventListener("click", function () {
     const inp = document.createElement("input");
     inp.type = "file";
@@ -125,6 +201,15 @@
     inp.click();
   });
 
+  /* ---- DropZone: keyboard support ---- */
+  dropZone.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      dropZone.click();
+    }
+  });
+
+  /* ---- DropZone: drag events ---- */
   ["dragenter", "dragover"].forEach(function (ev) {
     dropZone.addEventListener(ev, function (e) {
       e.preventDefault();
@@ -138,10 +223,14 @@
     });
   });
   dropZone.addEventListener("drop", function (e) {
-    addTileFiles(e.dataTransfer.files);
+    if (e.dataTransfer && e.dataTransfer.files) {
+      addTileFiles(e.dataTransfer.files);
+    }
   });
 
-  /* ---------- Generate ---------- */
+  /* ==================================================
+     GENERATE MOSAIC
+  ================================================== */
   function generateMosaic() {
     if (rendering) return;
     if (!baseImage) { alert("Please select a base image."); return; }
@@ -149,31 +238,31 @@
 
     rendering = true;
     generateBtn.disabled = true;
-    progressBar.style.display = "block";
-    progress.style.width = "10%";
+    showProgress();
+    setProgress(10);
 
-    /* --- Prepare base pixels (high-res) --- */
+    /* ---- Prepare base pixels ---- */
     const bCanvas = document.createElement("canvas");
-    bCanvas.width = BASE_SRC;
+    bCanvas.width  = BASE_SRC;
     bCanvas.height = BASE_SRC;
     const bCtx = bCanvas.getContext("2d");
     bCtx.imageSmoothingEnabled = true;
     bCtx.imageSmoothingQuality = "high";
     bCtx.drawImage(baseImage, 0, 0, BASE_SRC, BASE_SRC);
     basePixels = bCtx.getImageData(0, 0, BASE_SRC, BASE_SRC);
-    progress.style.width = "40%";
+    setProgress(40);
 
-    /* --- Prepare tile pixels (sharp, high-res) --- */
-        tilePixels = tileImages.map(function (obj) {
+    /* ---- Prepare tile pixels (center-crop to square) ---- */
+    tilePixels = tileImages.map(function (obj) {
       const img = obj.img;
-      const iw = img.naturalWidth  || img.width;
-      const ih = img.naturalHeight || img.height;
-      const side = Math.min(iw, ih);       // center-crop square
+      const iw  = img.naturalWidth  || img.width;
+      const ih  = img.naturalHeight || img.height;
+      const side = Math.min(iw, ih);
       const sx = (iw - side) / 2;
       const sy = (ih - side) / 2;
 
       const c = document.createElement("canvas");
-      c.width = TILE_SRC;
+      c.width  = TILE_SRC;
       c.height = TILE_SRC;
       const cx = c.getContext("2d");
       cx.imageSmoothingEnabled = true;
@@ -186,48 +275,69 @@
         height: TILE_SRC
       };
     });
-    progress.style.width = "70%";
+    setProgress(70);
 
-    const worker = new Worker("worker.js");
+    /* ---- Launch worker ---- */
+    let worker;
+    try {
+      worker = new Worker(WORKER_URL);
+    } catch (err) {
+      alert("Worker could not be started: " + err.message);
+      generateBtn.disabled = false;
+      rendering = false;
+      hideProgress();
+      return;
+    }
+
     worker.postMessage({
-      base: { data: basePixels.data, width: BASE_SRC, height: BASE_SRC },
+      base: {
+        data: basePixels.data,
+        width: BASE_SRC,
+        height: BASE_SRC
+      },
       tiles: tilePixels,
       gridSize: currentGridSize
     });
 
     worker.onmessage = function (e) {
-      if (!e.data.ok) {
-        alert("Error: " + e.data.error);
-        progressBar.style.display = "none";
+      if (!e.data || !e.data.ok) {
+        alert("Error: " + ((e.data && e.data.error) || "Unknown"));
+        hideProgress();
         generateBtn.disabled = false;
         rendering = false;
+        worker.terminate();
         return;
       }
+
       lastGrid = e.data.result;
       render();
-      progress.style.width = "100%";
+      setProgress(100);
+
       setTimeout(function () {
-        progressBar.style.display = "none";
+        hideProgress();
         generateBtn.disabled = false;
         rendering = false;
       }, 600);
+
       worker.terminate();
     };
 
     worker.onerror = function (err) {
-      alert("Worker error: " + err.message);
-      progressBar.style.display = "none";
+      alert("Worker error: " + (err.message || "Unknown"));
+      hideProgress();
       generateBtn.disabled = false;
       rendering = false;
+      worker.terminate();
     };
   }
 
   generateBtn.addEventListener("click", generateMosaic);
 
-  /* ---------- Render (SHARP) ---------- */
-    /* ---------- Render (SHARP + no stretching) ---------- */
+  /* ==================================================
+     RENDER — Sharp, no stretching
+  ================================================== */
   function render() {
-    if (!lastGrid || !baseImage) return;
+    if (!lastGrid || !baseImage || !ctx) return;
 
     const grid = lastGrid.grid;
     const cols = lastGrid.cols;
@@ -239,8 +349,8 @@
     const cellW = CANVAS_SIZE / cols;
     const cellH = CANVAS_SIZE / rows;
 
-    const baseOp = parseFloat(baseOpacityEl.value);
-    const tileOp = parseFloat(tileOpacityEl.value);
+    const baseOp = parseFloat(baseOpacityEl ? baseOpacityEl.value : 1);
+    const tileOp = parseFloat(tileOpacityEl ? tileOpacityEl.value : 1);
 
     /* ---- Base image (smooth) ---- */
     ctx.imageSmoothingEnabled = true;
@@ -249,7 +359,7 @@
     ctx.globalAlpha = baseOp;
     ctx.drawImage(baseImage, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    /* ---- Tiles (center-crop to square → NO stretching) ---- */
+    /* ---- Tiles (center-cropped, no stretch) ---- */
     ctx.globalAlpha = tileOp;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
@@ -261,10 +371,8 @@
         if (!t) continue;
 
         const img = t.img;
-        const iw = img.naturalWidth  || img.width;
-        const ih = img.naturalHeight || img.height;
-
-        /* Center-crop source to square (prevents stretch artifacts) */
+        const iw  = img.naturalWidth  || img.width;
+        const ih  = img.naturalHeight || img.height;
         const side = Math.min(iw, ih);
         const sx = (iw - side) / 2;
         const sy = (ih - side) / 2;
@@ -279,34 +387,39 @@
     ctx.globalAlpha = 1;
   }
 
-  baseOpacityEl.addEventListener("input", render);
-  tileOpacityEl.addEventListener("input", render);
+  /* ---- Live opacity sliders ---- */
+  if (baseOpacityEl) baseOpacityEl.addEventListener("input", render);
+  if (tileOpacityEl) tileOpacityEl.addEventListener("input", render);
 
-  function drawBasePreview() {
-    if (!baseImage) return;
-    canvas.width = CANVAS_SIZE;
-    canvas.height = CANVAS_SIZE;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(baseImage, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  }
-
-  /* ---------- Clear Tiles ---------- */
-  const clearBtn = document.getElementById("clearBtn");
+  /* ==================================================
+     CLEAR TILES
+  ================================================== */
   if (clearBtn) {
     clearBtn.addEventListener("click", function () {
       lastGrid = null;
-      canvas.width = CANVAS_SIZE;
+
+      canvas.width  = CANVAS_SIZE;
       canvas.height = CANVAS_SIZE;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       if (baseImage) {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
         ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
       }
-      baseOpacityEl.value = 1;
-      tileOpacityEl.value = 1;
+
+      if (baseOpacityEl) baseOpacityEl.value = 1;
+      if (tileOpacityEl) tileOpacityEl.value = 1;
     });
   }
+
+  /* ==================================================
+     INIT
+  ================================================== */
+  // Set initial canvas size
+  canvas.width  = CANVAS_SIZE;
+  canvas.height = CANVAS_SIZE;
+
+  console.log("AI Mosaic Studio v3 ready. Worker:", WORKER_URL);
+
 })();
