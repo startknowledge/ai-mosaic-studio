@@ -40,4 +40,37 @@
       }
     });
   });
+    /* ---------- Master collapse: About section ---------- */
+  const masterBtn  = document.getElementById("toggleAllDetails");
+  const masterBody = document.getElementById("longContentBody");
+
+  if (masterBtn && masterBody) {
+    // Restore from localStorage
+    try {
+      const saved = localStorage.getItem("aboutOpen");
+      if (saved === "1") {
+        masterBody.hidden = false;
+        masterBtn.setAttribute("aria-expanded", "true");
+        masterBtn.innerHTML = '<span class="arrow">▶</span> Hide Details';
+      }
+    } catch (e) {}
+
+    masterBtn.addEventListener("click", function () {
+      const isOpen = masterBtn.getAttribute("aria-expanded") === "true";
+
+      if (isOpen) {
+        // Collapse
+        masterBody.hidden = true;
+        masterBtn.setAttribute("aria-expanded", "false");
+        masterBtn.innerHTML = '<span class="arrow">▶</span> Show Details';
+        try { localStorage.setItem("aboutOpen", "0"); } catch (e) {}
+      } else {
+        // Expand
+        masterBody.hidden = false;
+        masterBtn.setAttribute("aria-expanded", "true");
+        masterBtn.innerHTML = '<span class="arrow">▶</span> Hide Details';
+        try { localStorage.setItem("aboutOpen", "1"); } catch (e) {}
+      }
+    });
+  }
 })();

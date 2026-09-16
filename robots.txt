@@ -1,17 +1,90 @@
 # robots.txt for AI Mosaic Studio
-# Website: https://aimosaicstudio.startknowledge.in/
+# Site: https://aimosaicstudio.startknowledge.in/
 
-# Allow all search engine bots to crawl the entire site
+# ============ ALL MAJOR SEARCH ENGINES ============
 User-agent: *
 Allow: /
-
-# Disallow access to common admin or system directories (if they exist)
-# These are blocked as a standard precaution, even if they don't exist on this static site.
 Disallow: /cgi-bin/
 Disallow: /wp-admin/
 Disallow: /wp-includes/
-Disallow: /assets/private/
 Disallow: /tmp/
+Disallow: /*?q=
+Crawl-delay: 1
 
-# Specify the location of the XML sitemap
+# ============ GOOGLE ============
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ============ BING ============
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ============ YANDEX ============
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: YandexImages
+Allow: /
+
+User-agent: YandexMobileBot
+Allow: /
+
+# ============ AI CRAWLERS (allow — free tools get visibility) ============
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# ============ BAD BOTS (block) ============
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ============ SITEMAP ============
 Sitemap: https://aimosaicstudio.startknowledge.in/sitemap.xml
+Sitemap: https://aimosaicstudio.startknowledge.in/sitemap-images.xml
