@@ -1,246 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>AI Mosaic Studio</title>
+<title>AI Mosaic Studio – Free AI Mosaic Art Generator Online</title>
 
-               <!-- ===== OPEN GRAPH ===== -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aimosaicstudio.startknowledge.in/" />
-        <meta property="og:title" content="AI Mosaic Studio – Create Stunning AI-Powered Mosaic Art" />
-        <meta
-        property="og:description"
-        content="Transform your photos into beautiful mosaic artworks with AI. Free online tool – upload, generate, and download your mosaic in HD or 4K."
-        />
-        <meta
-        property="og:image"
-        content="https://aimosaicstudio.startknowledge.in/assets/og-home.jpg"
-        />
+<meta name="description" content="AI Mosaic Studio is a free online AI-powered tool that transforms your photos into stunning mosaic artworks. Upload a base image, add tiles, generate in HD or 4K and download instantly. No signup required.">
+<meta name="keywords" content="ai mosaic studio, ai mosaic generator, photo mosaic maker, free mosaic tool, ai photo mosaic, online mosaic creator, picture mosaic generator, mosaic art maker, ai image mosaic, 4k mosaic download, photo collage ai, mosaic tile generator, create mosaic online, ai art generator, mosaic image editor, best mosaic tool india, startknowledge tools, mosaic webp export, hd mosaic png, free ai tools 2026">
+<meta name="author" content="StartKnowledge – AI Mosaic Studio Team">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="theme-color" content="#0e0e10">
 
-        <!-- ===== TWITTER CARD ===== -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AI Mosaic Studio – AI-Powered Mosaic Art" />
-        <meta
-        name="twitter:description"
-        content="Create stunning AI-generated mosaics from your photos. Upload, customize, and download in multiple formats."
-        />
+<link rel="canonical" href="https://aimosaicstudio.startknowledge.in/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
+<link rel="shortcut icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
+<link rel="apple-touch-icon" href="assets/favicon.svg?v=2">
 
-        <!-- ===== JSON-LD STRUCTURED DATA ===== -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "@id": "https://aimosaicstudio.startknowledge.in/#webpage",
-                "url": "https://aimosaicstudio.startknowledge.in/",
-                "name": "AI Mosaic Studio – AI-Powered Mosaic Art Generator",
-                "description": "AI Mosaic Studio transforms your photos into beautiful mosaic artworks using artificial intelligence. Upload a base image, add tiles, and generate unique mosaics instantly.",
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "@id": "https://aimosaicstudio.startknowledge.in/#website",
-                    "name": "AI Mosaic Studio",
-                    "url": "https://aimosaicstudio.startknowledge.in/"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "StartKnowledge",
-                    "url": "https://www.startknowledge.in/"
-                },
-                "inLanguage": "en",
-                "potentialAction": {
-                    "@type": "CreateAction",
-                    "name": "Generate Mosaic",
-                    "target": "https://aimosaicstudio.startknowledge.in/#generate"
-                }
-            }
-        </script>
+<!-- ============ OPEN GRAPH ============ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aimosaicstudio.startknowledge.in/">
+<meta property="og:title" content="AI Mosaic Studio – Free AI Mosaic Art Generator | HD & 4K Export">
+<meta property="og:description" content="Create stunning AI-powered mosaics from your photos. Upload base image + tiles, generate instantly in HD or 4K. Free, browser-based, no signup.">
+<meta property="og:image" content="https://aimosaicstudio.startknowledge.in/assets/og-home.jpg">
+<meta property="og:site_name" content="AI Mosaic Studio">
 
-        <!-- ================= CSS ================= -->
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/dark.css">
+<!-- ============ TWITTER ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Mosaic Studio – AI-Powered Mosaic Art Generator">
+<meta name="twitter:description" content="Turn any photo into a mosaic masterpiece. Free online AI mosaic generator with HD & 4K export.">
+<meta name="twitter:image" content="https://aimosaicstudio.startknowledge.in/assets/og-home.jpg">
 
-        <!-- ================= Favicon / Logo ================= -->
-        <!--<object type="image/svg+xml" data="assets/logo-3d.svg"></object>-->
+<!-- ============ JSON-LD ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AI Mosaic Studio",
+  "url": "https://aimosaicstudio.startknowledge.in/",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Web",
+  "description": "AI Mosaic Studio is a free browser-based AI tool that converts photos into mosaic artwork.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "creator": { "@type": "Organization", "name": "StartKnowledge", "url": "https://www.startknowledge.in/" }
+}
+</script>
 
-        <!-- ======= MediaPipe (Local Version Recommended) ======= -->
-        <script src="libs/mediapipe/face_mesh.js"></script>
-        <script src="libs/mediapipe/pose.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dark.css">
 
-        <!--Loader Use Karne Ka Code-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
+</head>
 
-    </head>
-    <body>
-        <!-- ================= HEADER ================= -->
-        <header class="main-header">
-            <object type="image/svg+xml" data="assets/logo-3d.svg" alt="AI Mosaic Logo" width="540" ></object>
-            <!--<img src="assets/logo.svg" alt="AI Mosaic Logo" width="240">-->
-            <h1>AI Mosaic Studio</h1>
-            <button id="themeToggle">🌙</button>
-        </header>
+<body>
 
-         <!-- ===== NAVIGATION ===== -->
-        <nav>
-            <ul>
-                <li><a href="index.html" aria-current="page">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="privacy.html">Privacy</a></li>
-                <li><a href="cookies.html">Cookies</a></li>
-                <li><a href="terms.html">Terms</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="documentation.html">Documentation</a></li>
-                <li><a href="support.html">Support</a></li>
-                <li><a href="disclaimer.html">Disclaimer</a></li>
-                <li><a href="additional.html">Additional</a></li>
-                <li><a href="changelog.html">Changelog</a></li>
-            </ul>
-        </nav>
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+  <object type="image/svg+xml" data="assets/logo-3d.svg" width="220" aria-label="AI Mosaic Logo"></object>
+  <h1>AI Mosaic Studio</h1>
+  <button id="themeToggle" aria-label="Toggle theme">☀️</button>
+</header>
 
-        <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-XXXX"
-        data-ad-slot="XXXX"
-        data-ad-format="auto"
-        data-full-width-responsive="true">
-        </ins>        
+<!-- ================= NAV ================= -->
+<nav aria-label="Primary">
+  <ul>
+    <li><a href="index.html" aria-current="page">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="how-to-use.html">How to Use</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="cookies.html">Cookies</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="documentation.html">Documentation</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="disclaimer.html">Disclaimer</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
+</nav>
 
-        <!-- ================= UPLOAD SECTION ================= -->
-        <section class="upload-area">
-            <h2>Base Image</h2>
-            <input type="file" id="baseImage" accept="image/*">
+<!-- ================= UPLOAD ================= -->
+<section class="upload-area">
 
-            <h2>Tile Images (Drag & Drop)</h2>
-            <div id="dropZone">Drop Images Here</div>
+  <!-- Base Image -->
+  <div class="section-head">
+    <h2>Base Image</h2>
+    <span class="info-icon" data-info="base-image" tabindex="0" role="button" aria-label="Info about Base Image">i</span>
+  </div>
+  <div class="info-panel" id="info-base-image" hidden>
+    <p><strong>What is the Base Image?</strong> The base image is the source photo that AI Mosaic Studio will convert into a mosaic. It defines shape, colours and structure of your final artwork.</p>
+    <p><strong>How it works:</strong> The engine divides the base image into a grid of cells, computes each cell's average brightness using <code>Y = 0.299R + 0.587G + 0.114B</code>, then places the best-matching tile in each cell.</p>
+    <p><strong>Best practices:</strong> Use a photo at least 800×800px. Faces and clear subjects work best. Avoid busy landscapes with tiny detail.</p>
+    <p><strong>Privacy:</strong> Everything runs in your browser. Nothing is uploaded.</p>
+  </div>
+  <input type="file" id="baseImage" accept="image/*">
 
-            <div class="options">
-                <label>
-                    <input type="checkbox" id="autoSet">
-                    Auto Set Images
-                </label>
+  <!-- Tiles -->
+  <div class="section-head">
+    <h2>Tile Images (Drag &amp; Drop)</h2>
+    <span class="info-icon" data-info="tiles" tabindex="0" role="button" aria-label="Info about Tile Images">i</span>
+  </div>
+  <div class="info-panel" id="info-tiles" hidden>
+    <p><strong>What are Tiles?</strong> Tiles are the small photos that rebuild your base image. Each tile represents one cell of the mosaic grid. The AI engine picks the best match per cell.</p>
+    <p><strong>How many tiles?</strong> 30–200 is ideal. More tiles = more variety. Under 20 = repetitive mosaic.</p>
+    <p><strong>Tile size:</strong> Square, at least 200×200px. Non-square tiles are stretched to fit.</p>
+    <p><strong>Auto Set Images:</strong> Automatically assigns tiles to grid cells.</p>
+    <p><strong>Manual Body Part Mapping:</strong> For portraits — assign specific tiles to eyes, nose, mouth, body regions.</p>
+  </div>
+  <div id="dropZone" role="button" tabindex="0" aria-label="Drop tile images here">Drop Images Here</div>
 
-                <label>
-                    <input type="checkbox" id="manualMapping">
-                    Manual Body Part Mapping
-                </label>
-            </div>
+  <!-- Tile Preview -->
+  <div class="tile-preview-wrap">
+    <div class="tile-count">Tiles loaded: <strong><span id="tileCountNum">0</span></strong></div>
+    <div class="tile-preview" id="tilePreview"></div>
+  </div>
 
-            <!-- Dynamic AI Upload Fields -->
-            <div id="dynamicInputs"></div>
+  <!-- Radio: Auto / Manual -->
+  <div class="options">
+    <label>
+      <input type="radio" name="mappingMode" id="autoSet" value="auto" checked>
+      Auto Set Images
+    </label>
+    <label>
+      <input type="radio" name="mappingMode" id="manualMapping" value="manual">
+      Manual Body Part Mapping
+    </label>
+  </div>
 
-            <button id="generateBtn">Generate Mosaic</button>
+  <div id="dynamicInputs"></div>
 
-            <div id="progressBar">
-                <div id="progress"></div>
-            </div>
+  
 
-        </section>
+  <button id="generateBtn">Generate Mosaic</button>
 
-        <!-- ================= RESULT SECTION ================= -->
-        <section class="result">
-            <canvas id="resultCanvas"></canvas>
+  <div id="progressBar"><div id="progress"></div></div>
+</section>
 
-            <div class="controls">
-                <div class="sliders">
-                    <label>
-                        Base Opacity
-                        <input type="range" id="baseOpacity" min="0" max="1" step="0.1" value="1">
-                    </label>
+<!-- ================= RESULT ================= -->
+<section class="result">
+  <canvas id="resultCanvas" width="800" height="800"></canvas>
 
-                    <label>
-                        Tile Opacity
-                        <input type="range" id="tileOpacity" min="0" max="1" step="0.1" value="1">
-                    </label>
-                </div>
+  <div class="controls">
 
-                <div class="export-options">
-                    <select id="formatSelect">
-                        <option value="png">PNG</option>
-                        <option value="jpeg">JPG</option>
-                        <option value="webp">WEBP</option>
-                    </select>
+    <!-- Row 1: Opacity sliders -->
+    <div class="sliders">
+      <label>Base Opacity
+        <input type="range" id="baseOpacity" min="0" max="1" step="0.05" value="1">
+      </label>
+      <label>Tile Opacity
+        <input type="range" id="tileOpacity" min="0" max="1" step="0.05" value="1">
+      </label>
+    </div>
 
-                    <select id="qualitySelect">
-                        <option value="hd">HD</option>
-                        <option value="4k">4K</option>
-                    </select>
+    <!-- Row 2: Tile Size slider (full width, centered) -->
+    <div class="tile-size-control">
+      <div class="row">
+        <span>Larger Tiles (fast)</span>
+        <span class="mid" id="tileSizeLabel">40 × 40</span>
+        <span>Smaller Tiles (detail)</span>
+      </div>
+      <input type="range" id="tileSizeSlider" min="15" max="80" step="1" value="40">
+    </div>
 
-                    <button id="downloadBtn">Download</button>
-                </div>
-            </div>
-        </section>
+    <!-- Row 3: Export options -->
+    <div class="export-options">
+      <select id="formatSelect">
+        <option value="png">PNG</option>
+        <option value="jpeg">JPG</option>
+        <option value="webp">WEBP</option>
+      </select>
+      <select id="qualitySelect">
+        <option value="hd">HD</option>
+        <option value="4k">4K</option>
+      </select>
+      <button id="downloadBtn">Download</button>
+    </div>
 
-        <!-- ================= LOADER (Optional Lottie) ================= -->
-        <div id="loader" style="display:none;"></div>
+  </div>
+</section>
 
-        <!-- ================= GOOGLE ADSENSE ================= -->
-        <section class="ads-section">
-            <script src="ads/adsense.js"></script>
-        </section>
+<!-- ================= LONG CONTENT (collapsed) ================= -->
+<section class="long-content" aria-labelledby="about-tool">
+  <h2 id="about-tool">About AI Mosaic Studio</h2>
 
-        <!-- ================= DIRECT CLIENT AD ================= -->
-        <div class="direct-ad">
-            <a href="https://exampleclient.com" target="_blank">
-                <img src="ads/client-banner.jpg" width="300" alt="Client Ad">
-            </a>
-        </div>
+  <details>
+    <summary>What is AI Mosaic Studio?</summary>
+    <p>AI Mosaic Studio is a free, browser-based AI tool that transforms ordinary photographs into stunning mosaic artwork. Unlike traditional mosaic makers that simply blend squares of colour, AI Mosaic Studio uses an intelligent brightness-matching algorithm to place thousands of tiny tile images into a grid that reconstructs your original photo. Every tile is chosen based on how closely its average RGB brightness matches the target cell. The result looks like your original image from a distance, but reveals hundreds of tiny pictures when viewed up close.</p>
+  </details>
 
-        
-<!-- ===== FOOTER ===== -->
-        <footer class="site-footer">
-            <p>
-                &copy; 2026 | A <a href="https://www.startknowledge.in/" target="_blank">StartKnowledge</a>
-                Project. All Rights Reserved.
-            </p>
+  <details>
+    <summary>How does the AI engine work?</summary>
+    <p>The engine converts the base image into a canvas, downsamples it to a grid (for example 40×40 cells), and computes the average brightness of each cell using the luma formula <code>Y = 0.299R + 0.587G + 0.114B</code>. Each tile image is processed the same way. A nearest-neighbour search then assigns the best tile to each cell. Optional manual mapping lets you force specific tiles into specific regions (eyes, nose, mouth, body) for portraits.</p>
+  </details>
 
-            <div class="footer-links">
-                <a href="index.html">Home</a> |
-                <a href="about.html">About</a> |
-                <a href="contact.html">Contact</a> |
-                <a href="privacy.html">Privacy Policy</a> |
-                <a href="cookies.html">Cookies Policy</a> |
-                <a href="terms.html">Terms &amp; Conditions</a> |
-                <a href="faq.html">FAQ</a> |
-                <a href="documentation.html">Documentation</a> |
-                <a href="support.html">Support</a> |
-                <a href="disclaimer.html">Disclaimer</a> |
-                <a href="changelog.html">Changelog</a> |
-                <a href="additional.html">Additional</a>
-            </div>
+  <details>
+    <summary>Is my data private?</summary>
+    <p>Yes. AI Mosaic Studio runs 100% inside your browser. Images are never uploaded to any server. All processing happens on your device using the Web Worker API. You can even disconnect from the internet after the page loads and the tool will still work.</p>
+  </details>
 
-            <div class="footer-projects">
-                <a href="https://www.startknowledge.in/blog/" target="_blank" rel="noopener noreferrer">Blogs</a> |
-                <a href="https://www.startknowledge.in/" target="_blank" rel="noopener noreferrer">StartKnowledge.in</a> |
-                <a href="https://ultrastaticseoengine.startknowledge.in/" target="_blank" rel="noopener noreferrer">Ultra Static SEO Engine</a> |
-                <a href="https://youtubevideointanalyzer.startknowledge.in/" target="_blank" rel="noopener noreferrer">YouTube Video Analyzer</a> |
-                <a href="https://calculatorlibraryportal.startknowledge.in/" target="_blank" rel="noopener noreferrer">Calculator Library</a> |
-                <a href="https://bnrationscale.startknowledge.in/" target="_blank" rel="noopener noreferrer">BN Ration Scale</a> |
-                <a href="https://pencalculator.startknowledge.in/" target="_blank" rel="noopener noreferrer">Army Pension Calculator</a> |
-                <a href="https://aimosaicstudio.startknowledge.in/" target="_blank" rel="noopener noreferrer">AiMosaic Studio</a> |
-                <a href="https://designpainting.startknowledge.in/" target="_blank" rel="noopener noreferrer">Design Painting</a> |
-                <a href="https://motionix.startknowledge.in/" target="_blank" rel="noopener noreferrer">Motionix</a>
-            </div>
+  <details>
+    <summary>What file formats are supported?</summary>
+    <p>Input: JPG, PNG, WEBP, HEIC (browser-dependent), GIF (first frame). Output: PNG, JPG, WEBP at HD or 4K resolution.</p>
+  </details>
 
-            <div class="footer-contact">
-                📧 <a href="mailto:contact@startknowledge.in">contact@startknowledge.in</a> |
-                📧 <a href="mailto:support@startknowledge.in">support@startknowledge.in</a> |
-                📧 <a href="mailto:hello@startknowledge.in">hello@startknowledge.in</a>
-            </div>
-        </footer>
+  <details>
+    <summary>Can I use AI Mosaic Studio on mobile?</summary>
+    <p>Yes — it works on Android, iOS, tablets and desktops. On low-end devices, use a smaller grid size for smoother performance.</p>
+  </details>
+</section>
 
-        
-        <!-- ================= LIBRARIES ================= -->
-        <script src="libs/browser-image-compression.js"></script>
+<!-- ================= LOADER ================= -->
+<div id="loader" hidden></div>
 
-        <!-- ================= CORE JS FILES ================= -->
-        <script src="theme.js"></script>
-        <script src="compression.js"></script>
-        <script src="mosaic-engine.js"></script>
-        <script src="face-detect.js"></script>
-        <script src="worker.js"></script>
-        <script src="download.js"></script>
-        <script src="app.js"></script>
-        <script src="ads/adsense.js"></script>
-    </body>
+<!-- ================= ADS ================= 
+<section class="ads-section">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="XXXXXXXXXX"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</section>-->
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p>&copy; 2026 | A <a href="https://www.startknowledge.in/" target="_blank" rel="noopener">StartKnowledge</a> Project. All Rights Reserved.</p>
+
+  <div class="footer-links">
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
+    <a href="how-to-use.html">How to Use</a> |
+    <a href="contact.html">Contact</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="cookies.html">Cookies</a> |
+    <a href="terms.html">Terms</a> |
+    <a href="faq.html">FAQ</a> |
+    <a href="documentation.html">Documentation</a> |
+    <a href="support.html">Support</a> |
+    <a href="disclaimer.html">Disclaimer</a> |
+    <a href="changelog.html">Changelog</a>
+  </div>
+
+  <div class="footer-projects">
+    <a href="https://www.startknowledge.in/blog/" target="_blank" rel="noopener">Blogs</a> |
+    <a href="https://www.startknowledge.in/" target="_blank" rel="noopener">StartKnowledge.in</a> |
+    <a href="https://ultrastaticseoengine.startknowledge.in/" target="_blank" rel="noopener">Ultra Static SEO Engine</a> |
+    <a href="https://youtubevideointanalyzer.startknowledge.in/" target="_blank" rel="noopener">YouTube Video Analyzer</a> |
+    <a href="https://calculatorlibraryportal.startknowledge.in/" target="_blank" rel="noopener">Calculator Library</a> |
+    <a href="https://bnrationscale.startknowledge.in/" target="_blank" rel="noopener">BN Ration Scale</a> |
+    <a href="https://pencalculator.startknowledge.in/" target="_blank" rel="noopener">Army Pension Calculator</a> |
+    <a href="https://aimosaicstudio.startknowledge.in/" target="_blank" rel="noopener">AiMosaic Studio</a> |
+    <a href="https://designpainting.startknowledge.in/" target="_blank" rel="noopener">Design Painting</a> |
+    <a href="https://motionix.startknowledge.in/" target="_blank" rel="noopener">Motionix</a>
+  </div>
+
+  <div class="footer-contact">
+    📧 <a href="mailto:contact@startknowledge.in">contact@startknowledge.in</a> |
+    📧 <a href="mailto:support@startknowledge.in">support@startknowledge.in</a> |
+    📧 <a href="mailto:hello@startknowledge.in">hello@startknowledge.in</a>
+  </div>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="libs/browser-image-compression.js" defer></script>
+<script src="theme.js" defer></script>
+<script src="mosaic-engine.js" defer></script>
+<script src="face-detect.js" defer></script>
+<script src="download.js" defer></script>
+<script src="app.js" defer></script>
+<script src="ads/adsense.js" defer></script>
+</body>
 </html>
